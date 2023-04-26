@@ -50,6 +50,32 @@ return {
     servers = {
       -- "pyright"
     },
+    -- server configuration
+    config = {
+      -- rust-analyzer options
+      rust_analyzer = {
+        settings = {
+          ['rust-analyzer'] = {
+            diagnostics = {
+              disabled = { "unresolved-proc-macro" },
+            },
+            cargo = {
+              features = "all",
+              buildScripts = {
+                enable = true,
+              },
+            },
+            procMacro = {
+              enable = true,
+            },
+            check = {
+              command = "clippy",
+              allTargets = true,
+            },
+          },
+        }
+      }
+    }
   },
   -- Configure require("lazy").setup() options
   lazy = {
