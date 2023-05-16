@@ -1,9 +1,15 @@
 return {
   "jackMort/ChatGPT.nvim",
-  event = "VeryLazy",
   config = function()
     require("chatgpt").setup()
   end,
+  cmd = {
+    "ChatGPT",
+    "ChatGPTActAs",
+    "ChatGPTCompleteCode",
+    "ChatGPTEditWithInstructions",
+    "ChatGPTRun"
+  },
   dependencies = {
     "MunifTanjim/nui.nvim",
     "nvim-lua/plenary.nvim",
