@@ -1,3 +1,8 @@
+local colorscheme = "astrodark"
+if os.getenv("DARK_MODE") == "off" then
+  colorscheme = "astrolight"
+end
+
 return {
   -- Configure AstroNvim updates
   updater = {
@@ -17,7 +22,7 @@ return {
     },
   },
   -- Set colorscheme to use
-  colorscheme = "astrodark",
+  colorscheme = colorscheme,
   -- Diagnostics configuration (for vim.diagnostics.config({...})) when diagnostics are on
   diagnostics = {
     virtual_text = true,
