@@ -21,9 +21,10 @@ return {
   { import = "astrocommunity.completion.copilot-lua-cmp" },
 
   -- Easy align
-  { import = "astrocommunity.syntax.vim-easy-align" },
+  { import = "astrocommunity.syntax.vim-easy-align",     enabled = true },
   {
     "junegunn/vim-easy-align",
+    enabled = true,
     keys = {
       { "ga", "<plug>(EasyAlign)", mode = "x" },
       { "ga", "<plug>(EasyAlign)", mode = "n" },
