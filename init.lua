@@ -40,6 +40,7 @@ return {
         ignore_filetypes = { -- disable format on save for specified filetypes
           "toml",
           "markdown",
+          "python",
         },
       },
       disabled = { -- disable formatting capabilities for the listed language servers
@@ -78,6 +79,22 @@ return {
               allTargets = true,
             },
           },
+        }
+      },
+
+      -- pylsp options
+      pylsp = {
+        settings = {
+          pylsp = {
+            plugins = {
+              pycodestyle = {
+                enabled = false,
+              },
+              rope_autoimport = {
+                enabled = true,
+              },
+            }
+          }
         }
       }
     }
