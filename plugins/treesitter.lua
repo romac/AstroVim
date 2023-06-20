@@ -10,6 +10,6 @@ return {
     }
   },
   dependencies = {
-    'p00f/nvim-ts-rainbow',
+    'HiPhish/nvim-ts-rainbow2',
   }
 }

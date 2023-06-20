@@ -1,6 +1,6 @@
-local colorscheme = "astrodark"
+local colorscheme = "catppuccin-mocha"
 if os.getenv("DARK_MODE") == "off" then
-  colorscheme = "astrolight"
+  colorscheme = "catppuccin-latte"
 end
 
 return {
