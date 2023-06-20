@@ -1,8 +1,3 @@
-local colorscheme = "catppuccin-mocha"
-if os.getenv("DARK_MODE") == "off" then
-  colorscheme = "catppuccin-latte"
-end
-
 return {
   -- Configure AstroNvim updates
   updater = {
@@ -21,13 +16,16 @@ return {
       --   ["remote3"] = "github_user", -- GitHub user assume AstroNvim fork
     },
   },
+
   -- Set colorscheme to use
-  colorscheme = colorscheme,
+  colorscheme = "catppuccin",
+
   -- Diagnostics configuration (for vim.diagnostics.config({...})) when diagnostics are on
   diagnostics = {
     virtual_text = true,
     underline = true,
   },
+
   lsp = {
     -- customize lsp formatting options
     formatting = {
@@ -99,6 +97,7 @@ return {
       }
     }
   },
+
   -- Configure require("lazy").setup() options
   lazy = {
     defaults = { lazy = true },
@@ -109,12 +108,21 @@ return {
       },
     },
   },
+
   -- This function is run last and is a good place to configuring
   -- augroups/autocommands and custom filetypes also this just pure lua so
   -- anything that doesn't fit in the normal config locations above can go here
   polish = function()
     -- Set :W as an alias for :w
     vim.cmd [[command! W w]]
+
+    -- Set background based on output of `dark-mode status` command
+    local dark_mode = vim.trim(vim.fn.system("dark-mode status"))
+    if dark_mode == "off" then
+      vim.o.background = "light"
+    else
+      vim.o.background = "dark"
+    end
 
     --
     -- Set up custom filetypes

@@ -7,6 +7,7 @@ return {
   {
     "catppuccin",
     opts = {
+      no_italic = true,
       integrations = {
         ts_rainbow2 = true,
       }
