@@ -8,6 +8,19 @@ return {
       return opts
     end,
   },
+
+  {
+    "hrsh7th/nvim-cmp",
+    opts = function(_, opts)
+      local cmp = require "cmp"
+      opts.completion = {
+        -- remove default 'noselect' to preselect first item
+        completeopt = "menu,menuone,noinsert",
+      }
+      return opts
+    end,
+  },
+
   -- You can disable default plugins as follows:
   -- { "max397574/better-escape.nvim", enabled = false },
   --
