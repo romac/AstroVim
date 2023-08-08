@@ -22,7 +22,7 @@ return {
   { import = "astrocommunity.completion.copilot-lua-cmp" },
 
   -- Easy align
-  { import = "astrocommunity.syntax.vim-easy-align",     enabled = true },
+  { import = "astrocommunity.syntax.vim-easy-align", enabled = true },
   {
     "junegunn/vim-easy-align",
     enabled = true,
