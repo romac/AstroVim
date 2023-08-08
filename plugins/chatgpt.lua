@@ -1,14 +1,9 @@
 return {
-  "jackMort/ChatGPT.nvim",
+  -- "jackMort/ChatGPT.nvim",
+  "thehunmonkgroup/ChatGPT.nvim",
+  branch = "edit-with-instructions-using-openai-functions",
   config = function()
-    require("chatgpt").setup({
-      openai_params = {
-        model = "gpt-4"
-      },
-      openai_edit_params = {
-        mode = "gpt-4"
-      }
-    })
+    require("chatgpt").setup({})
   end,
   cmd = {
     "ChatGPT",
