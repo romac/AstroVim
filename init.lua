@@ -128,7 +128,7 @@ return {
     vim.cmd [[command! W w]]
 
     -- Set background based on output of `dark-mode status` command
-    local dark_mode = vim.trim(vim.fn.system("dark-mode status"))
+    local dark_mode = vim.trim(vim.fn.system({"dark-mode", "status"}))
     if dark_mode == "off" then
       vim.o.background = "light"
     else
