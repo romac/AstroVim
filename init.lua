@@ -52,7 +52,8 @@ return {
     },
     -- enable servers that you already have installed without mason
     servers = {
-      "sourcekit"
+      "sourcekit",
+      "quint"
     },
     -- server configuration
     config = {
@@ -79,6 +80,16 @@ return {
           },
         }
       },
+
+      quint = function ()
+        return {
+          cmd = { "quint-language-server", "--stdio" },
+          filetypes = { "quint" },
+          root_dir = function (_)
+            return vim.fn.getcwd()
+          end,
+        }
+      end,
 
       -- pylsp options
       pylsp = {
