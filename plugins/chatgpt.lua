@@ -1,7 +1,7 @@
 return {
   -- "jackMort/ChatGPT.nvim",
   "thehunmonkgroup/ChatGPT.nvim",
-  branch = "edit-with-instructions-using-openai-functions",
+  branch = "main",
   config = function()
     require("chatgpt").setup({})
   end,
