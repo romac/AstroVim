@@ -124,9 +124,6 @@ return {
   -- augroups/autocommands and custom filetypes also this just pure lua so
   -- anything that doesn't fit in the normal config locations above can go here
   polish = function()
-    -- Set :W as an alias for :w
-    vim.cmd [[command! W w]]
-
     -- Set background based on output of `dark-mode status` command
     local dark_mode = vim.trim(vim.fn.system({"dark-mode", "status"}))
     if dark_mode == "off" then
@@ -140,12 +137,9 @@ return {
       extension = {
         qnt = "quint",
       },
-      -- filename = {
-      --   ["Foofile"] = "fooscript",
-      -- },
-      -- pattern = {
-      --   ["~/%.config/foo/.*"] = "fooscript",
-      -- },
     }
+
+    -- Load custom commands
+    require("user.commands").load()
   end,
 }
