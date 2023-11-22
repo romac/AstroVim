@@ -77,6 +77,11 @@ return {
               command = "clippy",
               allTargets = true,
             },
+            imports = {
+              granularity = {
+                group = "module"
+              }
+            }
           },
         }
       },
