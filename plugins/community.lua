@@ -17,6 +17,7 @@ return {
   -- Language packs
   { import = "astrocommunity.pack.rust" },
   { import = "astrocommunity.pack.go" },
+  { import = "astrocommunity.pack.lua" },
 
   -- Copilot
   { import = "astrocommunity.completion.copilot-lua-cmp" },
