@@ -3,7 +3,7 @@ return {
   "AstroNvim/astrocommunity",
 
   -- Themes
-  { import = "astrocommunity.colorscheme.catppuccin",    enabled = true },
+  { import = "astrocommunity.colorscheme.catppuccin", enabled = true },
   {
     "catppuccin",
     opts = {
@@ -18,6 +18,7 @@ return {
   { import = "astrocommunity.pack.rust" },
   { import = "astrocommunity.pack.go" },
   { import = "astrocommunity.pack.lua" },
+  { import = "astrocommunity.pack.scala" },
 
   -- Copilot
   { import = "astrocommunity.completion.copilot-lua-cmp" },
