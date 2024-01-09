@@ -4,27 +4,16 @@ local aliases = {
 }
 
 local function open_on_github(opts)
-    -- local function get_git_root()
-    --   return vim.fn.system("git rev-parse --show-toplevel")
-    -- end
+  local git_root = vim.fn.system { "git", "rev-parse", "--show-toplevel" }
 
-    -- print(vim.inspect(opts))
+  local file_path = vim.fn.expand("%:" .. git_root .. ":.")
+  -- local file_path = vim.fn.expand "%:."
+  if opts.range == 2 then file_path = file_path .. ":" .. opts.line1 end
 
-    -- local git_root = get_git_root()
-    -- print("get_git_root: " .. git_root)
-    --
-    -- local file_path = vim.fn.expand('%:' .. git_root .. ':.')
-    -- print("file_path: " .. file_path)
+  local git_branch = vim.fn.system { "git", "rev-parse", "--abbrev-ref", "HEAD" }
+  git_branch = string.gsub(git_branch, "\n", "")
 
-    local file_path = vim.fn.expand('%:.')
-
-    if opts.range == 2 then
-      file_path = file_path .. ":" .. opts.line1
-    end
-
-    -- print("file_path: " .. file_path)
-
-    vim.fn.system("gh browse '" .. file_path .. "'")
+  vim.fn.system { "gh", "browse", file_path, "--branch", git_branch }
 end
 
 local commands = {
@@ -32,7 +21,7 @@ local commands = {
     "GHOpen",
     open_on_github,
     { nargs = 0, range = true },
-  }
+  },
 }
 
 return {
