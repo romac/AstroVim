@@ -10,8 +10,8 @@ return {
       no_italic = true,
       integrations = {
         ts_rainbow2 = true,
-      }
-    }
+      },
+    },
   },
 
   -- Language packs
@@ -19,6 +19,8 @@ return {
   { import = "astrocommunity.pack.go" },
   { import = "astrocommunity.pack.lua" },
   { import = "astrocommunity.pack.scala" },
+  { import = "astrocommunity.pack.swift" },
+  { import = "astrocommunity.pack.nix" },
 
   -- Copilot
   { import = "astrocommunity.completion.copilot-lua-cmp" },
@@ -32,5 +34,5 @@ return {
       { "ga", "<plug>(EasyAlign)", mode = "x" },
       { "ga", "<plug>(EasyAlign)", mode = "n" },
     },
-  }
+  },
 }

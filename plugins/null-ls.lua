@@ -9,10 +9,17 @@ return {
     -- https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/diagnostics
     config.sources = {
       -- Set a formatter
+
+      -- Lua
       -- null_ls.builtins.formatting.stylua,
+
+      -- JavaScript
       -- null_ls.builtins.formatting.prettier,
 
+      -- Nix
       null_ls.builtins.formatting.alejandra,
+
+      -- Swift: https://github.com/nicklockwood/SwiftFormat
       null_ls.builtins.formatting.swiftformat,
     }
     return config -- return final config table
