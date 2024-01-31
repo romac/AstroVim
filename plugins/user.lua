@@ -8,6 +8,22 @@ return {
     enabled = true,
   },
   {
+    "rhysd/vim-wasm",
+    enabled = true,
+    init = function()
+      vim.api.nvim_create_autocmd({
+        "BufNewFile",
+        "BufRead",
+      }, {
+        pattern = "*.wat",
+        callback = function()
+          local buf = vim.api.nvim_get_current_buf()
+          vim.api.nvim_buf_set_option(buf, "filetype", "wast")
+        end,
+      })
+    end,
+  },
+  {
     "folke/todo-comments.nvim",
     enabled = true,
     dependencies = { "nvim-lua/plenary.nvim" },
