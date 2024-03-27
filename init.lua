@@ -54,6 +54,7 @@ return {
     servers = {
       "sourcekit",
       "quint",
+      "gleam",
     },
     -- server configuration
     config = {
