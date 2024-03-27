@@ -39,4 +39,24 @@ return {
       )
     end,
   },
+  {
+    "pocco81/true-zen.nvim",
+    enabled = true,
+    cmd = { "TZNarrow", "TZFocus", "TZMinimalist", "TZAtaraxis" },
+    opts = {
+      modes = {
+        ataraxis = {
+          minimum_writing_area = { -- minimum size of main window
+            width = 120,
+            height = 80,
+          },
+        },
+        minimalist = {
+          options = {
+            wrap = true,
+          },
+        },
+      },
+    },
+  },
 }
