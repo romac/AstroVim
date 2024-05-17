@@ -2,8 +2,6 @@ if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
 
 -- AstroLSP allows you to customize the features in AstroNvim's LSP configuration engine
 -- Configuration documentation can be found with `:h astrolsp`
--- NOTE: We highly recommend setting up the Lua Language Server (`:LspInstall lua_ls`)
---       as this provides autocomplete and documentation while editing
 
 ---@type LazySpec
 return {
@@ -26,7 +24,9 @@ return {
           -- "go",
         },
         ignore_filetypes = { -- disable format on save for specified filetypes
-          -- "python",
+          "toml",
+          "markdown",
+          "python",
         },
       },
       disabled = { -- disable formatting capabilities for the listed language servers
@@ -40,12 +40,101 @@ return {
     },
     -- enable servers that you already have installed without mason
     servers = {
-      -- "pyright"
+      "sourcekit",
+      "quint",
+      "gleam",
     },
     -- customize language server configuration options passed to `lspconfig`
     ---@diagnostic disable: missing-fields
     config = {
-      -- clangd = { capabilities = { offsetEncoding = "utf-8" } },
+      -- Rust
+      rust_analyzer = {
+        settings = {
+          ["rust-analyzer"] = {
+            cargo = {
+              autoreload = true,
+              extraEnv = { CARGO_PROFILE_RUST_ANALYZER_INHERITS = "dev" },
+              extraArgs = { "--profile", "rust-analyzer" },
+              features = "all",
+              buildScripts = {
+                enable = true,
+              },
+              check = {
+                command = "clippy",
+                allTargets = true,
+              },
+            },
+            completion = {
+              postfix = {
+                enable = true,
+              },
+              snippet = {
+                custom = {
+                  ["Arc::new"] = {
+                    postfix = "arc",
+                    body = "Arc::new(${receiver})",
+                    requires = "std::sync::Arc",
+                    description = "Put the expression into an `Arc`",
+                    scope = "expr",
+                  },
+                  ["Rc::new"] = {
+                    postfix = "rc",
+                    body = "Rc::new(${receiver})",
+                    requires = "std::rc::Rc",
+                    description = "Put the expression into an `Rc`",
+                    scope = "expr",
+                  },
+                  ["Box::pin"] = {
+                    postfix = "pinbox",
+                    body = "Box::pin(${receiver})",
+                    requires = "std::boxed::Box",
+                    description = "Put the expression into a pinned `Box`",
+                    scope = "expr",
+                  },
+                  ["Ok"] = {
+                    postfix = "ok",
+                    body = "Ok(${receiver})",
+                    description = "Wrap the expression in a `Result::Ok`",
+                    scope = "expr",
+                  },
+                  ["Err"] = {
+                    postfix = "err",
+                    body = "Err(${receiver})",
+                    description = "Wrap the expression in a `Result::Err`",
+                    scope = "expr",
+                  },
+                  ["Some"] = {
+                    postfix = "some",
+                    body = "Some(${receiver})",
+                    description = "Wrap the expression in an `Option::Some`",
+                    scope = "expr",
+                  },
+                },
+              },
+            },
+            procMacro = {
+              enable = true,
+            },
+            imports = {
+              granularity = {
+                group = "module",
+              },
+            },
+            diagnostics = {
+              disabled = { "unresolved-proc-macro" },
+            },
+          },
+        },
+      },
+
+      -- Quint
+      quint = function()
+        return {
+          cmd = { "quint-language-server", "--stdio" },
+          filetypes = { "quint" },
+          root_dir = function(_) return vim.fn.getcwd() end,
+        }
+      end,
     },
     -- customize how language servers are attached
     handlers = {
