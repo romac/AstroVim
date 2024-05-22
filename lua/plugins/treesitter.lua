@@ -8,10 +8,11 @@ return {
     opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, {
       "lua",
       "vim",
-      "gleam", 
-      "dockerfile", 
-      "just"
-      -- add more arguments for adding more treesitter parsers
+      "gleam",
+      "dockerfile",
+      "just",
+      "wit",
+      "sql",
     })
   end,
 }

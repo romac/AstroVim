@@ -1,5 +1,3 @@
-if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
-
 -- AstroLSP allows you to customize the features in AstroNvim's LSP configuration engine
 -- Configuration documentation can be found with `:h astrolsp`
 
@@ -24,9 +22,10 @@ return {
           -- "go",
         },
         ignore_filetypes = { -- disable format on save for specified filetypes
-          "toml",
+          "crates.nvim",
           "markdown",
           "python",
+          "toml",
         },
       },
       disabled = { -- disable formatting capabilities for the listed language servers
@@ -68,49 +67,49 @@ return {
               postfix = {
                 enable = true,
               },
-              snippet = {
-                custom = {
-                  ["Arc::new"] = {
-                    postfix = "arc",
-                    body = "Arc::new(${receiver})",
-                    requires = "std::sync::Arc",
-                    description = "Put the expression into an `Arc`",
-                    scope = "expr",
-                  },
-                  ["Rc::new"] = {
-                    postfix = "rc",
-                    body = "Rc::new(${receiver})",
-                    requires = "std::rc::Rc",
-                    description = "Put the expression into an `Rc`",
-                    scope = "expr",
-                  },
-                  ["Box::pin"] = {
-                    postfix = "pinbox",
-                    body = "Box::pin(${receiver})",
-                    requires = "std::boxed::Box",
-                    description = "Put the expression into a pinned `Box`",
-                    scope = "expr",
-                  },
-                  ["Ok"] = {
-                    postfix = "ok",
-                    body = "Ok(${receiver})",
-                    description = "Wrap the expression in a `Result::Ok`",
-                    scope = "expr",
-                  },
-                  ["Err"] = {
-                    postfix = "err",
-                    body = "Err(${receiver})",
-                    description = "Wrap the expression in a `Result::Err`",
-                    scope = "expr",
-                  },
-                  ["Some"] = {
-                    postfix = "some",
-                    body = "Some(${receiver})",
-                    description = "Wrap the expression in an `Option::Some`",
-                    scope = "expr",
-                  },
-                },
-              },
+              -- snippet = {
+              --   custom = {
+              --     ["Arc::new"] = {
+              --       postfix = "arc",
+              --       body = "Arc::new(${receiver})",
+              --       requires = "std::sync::Arc",
+              --       description = "Put the expression into an `Arc`",
+              --       scope = "expr",
+              --     },
+              --     ["Rc::new"] = {
+              --       postfix = "rc",
+              --       body = "Rc::new(${receiver})",
+              --       requires = "std::rc::Rc",
+              --       description = "Put the expression into an `Rc`",
+              --       scope = "expr",
+              --     },
+              --     ["Box::pin"] = {
+              --       postfix = "pinbox",
+              --       body = "Box::pin(${receiver})",
+              --       requires = "std::boxed::Box",
+              --       description = "Put the expression into a pinned `Box`",
+              --       scope = "expr",
+              --     },
+              --     ["Ok"] = {
+              --       postfix = "ok",
+              --       body = "Ok(${receiver})",
+              --       description = "Wrap the expression in a `Result::Ok`",
+              --       scope = "expr",
+              --     },
+              --     ["Err"] = {
+              --       postfix = "err",
+              --       body = "Err(${receiver})",
+              --       description = "Wrap the expression in a `Result::Err`",
+              --       scope = "expr",
+              --     },
+              --     ["Some"] = {
+              --       postfix = "some",
+              --       body = "Some(${receiver})",
+              --       description = "Wrap the expression in an `Option::Some`",
+              --       scope = "expr",
+              --     },
+              --   },
+              -- },
             },
             procMacro = {
               enable = true,
@@ -128,13 +127,11 @@ return {
       },
 
       -- Quint
-      quint = function()
-        return {
-          cmd = { "quint-language-server", "--stdio" },
-          filetypes = { "quint" },
-          root_dir = function(_) return vim.fn.getcwd() end,
-        }
-      end,
+      quint = {
+        cmd = { "quint-language-server", "--stdio" },
+        filetypes = { "quint" },
+        root_dir = function(_) return vim.fn.getcwd() end,
+      },
     },
     -- customize how language servers are attached
     handlers = {
