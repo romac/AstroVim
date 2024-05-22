@@ -1,0 +1,18 @@
+-- local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+--
+-- return {
+--   load = function()
+--     parser_config.wit = {
+--       install_info = {
+--         url = "https://github.com/hh9527/tree-sitter-wit",
+--         files = { "src/parser.c" },
+--         branch = "main",
+--         generate_requires_npm = false,
+--         requires_generate_from_grammar = false,
+--       },
+--       filetype = "wit",
+--     }
+--
+--     -- vim.treesitter.language.register("wit", "wit")
+--   end,
+-- }

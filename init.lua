@@ -140,10 +140,14 @@ return {
     vim.filetype.add {
       extension = {
         qnt = "quint",
+        wit = "wit",
       },
     }
 
     -- Load custom commands
     require("user.commands").load()
+
+    -- Load custom Tree Sitter parsers
+    -- require("user.grammars").load()
   end,
 }
