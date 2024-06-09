@@ -41,6 +41,7 @@ return {
     servers = {
       "sourcekit",
       "quint",
+      "fish",
       "gleam",
     },
     -- customize language server configuration options passed to `lspconfig`
@@ -67,49 +68,6 @@ return {
               postfix = {
                 enable = true,
               },
-              -- snippet = {
-              --   custom = {
-              --     ["Arc::new"] = {
-              --       postfix = "arc",
-              --       body = "Arc::new(${receiver})",
-              --       requires = "std::sync::Arc",
-              --       description = "Put the expression into an `Arc`",
-              --       scope = "expr",
-              --     },
-              --     ["Rc::new"] = {
-              --       postfix = "rc",
-              --       body = "Rc::new(${receiver})",
-              --       requires = "std::rc::Rc",
-              --       description = "Put the expression into an `Rc`",
-              --       scope = "expr",
-              --     },
-              --     ["Box::pin"] = {
-              --       postfix = "pinbox",
-              --       body = "Box::pin(${receiver})",
-              --       requires = "std::boxed::Box",
-              --       description = "Put the expression into a pinned `Box`",
-              --       scope = "expr",
-              --     },
-              --     ["Ok"] = {
-              --       postfix = "ok",
-              --       body = "Ok(${receiver})",
-              --       description = "Wrap the expression in a `Result::Ok`",
-              --       scope = "expr",
-              --     },
-              --     ["Err"] = {
-              --       postfix = "err",
-              --       body = "Err(${receiver})",
-              --       description = "Wrap the expression in a `Result::Err`",
-              --       scope = "expr",
-              --     },
-              --     ["Some"] = {
-              --       postfix = "some",
-              --       body = "Some(${receiver})",
-              --       description = "Wrap the expression in an `Option::Some`",
-              --       scope = "expr",
-              --     },
-              --   },
-              -- },
             },
             procMacro = {
               enable = true,
@@ -132,7 +90,15 @@ return {
         filetypes = { "quint" },
         root_dir = function(_) return vim.fn.getcwd() end,
       },
+
+      -- Fish
+      fish = {
+        cmd = { "fish-lsp", "start" },
+        filetypes = { "fish" },
+        root_dir = function(_) return vim.fn.getcwd() end,
+      },
     },
+
     -- customize how language servers are attached
     handlers = {
       -- a function without a key is simply the default handler, functions take two parameters, the server name and the configured options table for that server
