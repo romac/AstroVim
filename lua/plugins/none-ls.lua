@@ -17,8 +17,8 @@ return {
       -- Nix
       null_ls.builtins.formatting.alejandra,
 
-      -- Swift: https://github.com/nicklockwood/SwiftFormat
-      null_ls.builtins.formatting.swiftformat,
+      -- Swift
+      null_ls.builtins.formatting.swift_format,
 
       -- JavaScript
       null_ls.builtins.formatting.prettier,
