@@ -14,24 +14,6 @@ return {
     end,
   },
 
-  {
-    "hrsh7th/cmp-nvim-lsp",
-    enabled = true,
-  },
-
-  {
-    "hrsh7th/nvim-cmp",
-    opts = function(_, opts)
-      opts.completion = {
-        -- remove default 'noselect' to preselect first item
-        completeopt = "menu,menuone,noinsert",
-      }
-      if not opts.sources then opts.sources = {} end
-      table.insert(opts.sources, { name = "nvim_lsp", priority = 1000 })
-      return opts
-    end,
-  },
-
   -- You can disable default plugins as follows:
   -- { "max397574/better-escape.nvim", enabled = false },
 
