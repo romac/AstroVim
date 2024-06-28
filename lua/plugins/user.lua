@@ -14,6 +14,36 @@ return {
     end,
   },
 
+  {
+    "chrisgrieser/nvim-rip-substitute",
+    keys = {
+      {
+        "<leader>fs",
+        function() require("rip-substitute").sub() end,
+        mode = { "n", "x" },
+        desc = "Search & replace in buffer",
+      },
+    },
+  },
+
+  {
+    "MagicDuck/grug-far.nvim",
+    config = function()
+      require("grug-far").setup {
+        -- TODO
+      }
+    end,
+    keys = {
+      {
+        "<leader>fS",
+        function() require("grug-far").grug_far() end,
+        -- function() require("grug-far").grug_far({ prefills = { search = vim.fn.expand("<cword>") } }) end,
+        mode = { "n", "x" },
+        desc = "Search & replace in project",
+      },
+    },
+  },
+
   -- You can disable default plugins as follows:
   -- { "max397574/better-escape.nvim", enabled = false },
 

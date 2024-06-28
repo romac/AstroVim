@@ -11,6 +11,7 @@ return {
       "gleam",
       "just",
       "lua",
+      "regex",
       "sql",
       "vim",
       "wit",
