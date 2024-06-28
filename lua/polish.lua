@@ -14,6 +14,7 @@ vim.filetype.add {
   extension = {
     qnt = "quint",
     wit = "wit",
+    eff = "effed",
   },
   filename = {
     ["Justfile"] = "just",
@@ -23,6 +24,20 @@ vim.filetype.add {
     -- ["~/%.config/foo/.*"] = "fooscript",
   },
 }
+
+-- Setup parser for Effed
+local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+
+---@diagnostic disable-next-line: inject-field
+parser_config.effed = {
+  install_info = {
+    url = "~/Code/effed/tree-sitter-effed",
+    files = { "src/parser.c" },
+  },
+  filetype = "eff",
+}
+
+vim.treesitter.language.register("effed", "eff")
 
 local aliases = {
   -- Set :W as an alias for :w
