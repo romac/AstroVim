@@ -43,6 +43,9 @@ vim.treesitter.language.register("effed", "eff")
 local aliases = {
   -- Set :W as an alias for :w
   { "W", "w" },
+
+  -- Set :Q as an alias for :q
+  { "Q", "q" },
 }
 
 for _, alias in ipairs(aliases) do
