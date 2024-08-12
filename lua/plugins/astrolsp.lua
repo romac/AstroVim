@@ -37,10 +37,12 @@ return {
     },
     -- enable servers that you already have installed without mason
     servers = {
-      "sourcekit",
-      "quint",
+      "cairo",
       "fish",
       "gleam",
+      "quint",
+      "rhai",
+      "sourcekit",
     },
     -- customize language server configuration options passed to `lspconfig`
     ---@diagnostic disable: missing-fields
@@ -86,6 +88,20 @@ return {
       quint = {
         cmd = { "quint-language-server", "--stdio" },
         filetypes = { "quint" },
+        root_dir = function(_) return vim.fn.getcwd() end,
+      },
+
+      -- Rhai
+      rhai = {
+        cmd = { "rhai", "lsp", "stdio" },
+        filetypes = { "rhai" },
+        root_dir = function(_) return vim.fn.getcwd() end,
+      },
+
+      -- Cairo
+      cairo = {
+        cmd = { "scarb", "cairo-language-server" },
+        filetypes = { "cairo" },
         root_dir = function(_) return vim.fn.getcwd() end,
       },
 

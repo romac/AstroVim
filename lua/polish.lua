@@ -15,6 +15,7 @@ vim.filetype.add {
     qnt = "quint",
     wit = "wit",
     eff = "effed",
+    cairo = "cairo",
   },
   filename = {
     ["Justfile"] = "just",
