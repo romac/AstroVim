@@ -50,6 +50,19 @@ return {
     ft = "rhai",
   },
 
+  {
+    "romac/openingh.nvim",
+    cmd = { "OpenInGHRepo", "OpenInGHFile", "OpenInGHFileLines" },
+    keys = {
+      {
+        "<leader>gh",
+        function() vim.cmd "OpenInGHFile" end,
+        mode = { "n", "x" },
+        desc = "Open file in GitHub",
+      },
+    },
+  },
+
   -- You can disable default plugins as follows:
   -- { "max397574/better-escape.nvim", enabled = false },
 
