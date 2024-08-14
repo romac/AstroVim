@@ -18,6 +18,7 @@
   "cmp_luasnip": { "branch": "master", "commit": "05a9ab28b53f71d1aece421ef32fee2cb857a843" },
   "copilot.lua": { "branch": "master", "commit": "86537b286f18783f8b67bccd78a4ef4345679625" },
   "crates.nvim": { "branch": "main", "commit": "cd670ecc862469557b12d12e7116d7afd2fd9c0f" },
+  "dark-notify": { "branch": "master", "commit": "891adc07dd7b367b840f1e9875b075fd8af4dc52" },
   "dressing.nvim": { "branch": "master", "commit": "71349f24c6e07b39f33600985843c289ca735308" },
   "friendly-snippets": { "branch": "main", "commit": "00ebcaa159e817150bd83bfe2d51fa3b3377d5c4" },
   "gitsigns.nvim": { "branch": "main", "commit": "0b04035bb7b3c83e999b9676e2fb46fd0aa9f910" },
