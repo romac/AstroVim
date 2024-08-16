@@ -28,24 +28,6 @@ return {
   },
 
   {
-    "MagicDuck/grug-far.nvim",
-    config = function()
-      require("grug-far").setup {
-        -- TODO
-      }
-    end,
-    keys = {
-      {
-        "<leader>fS",
-        function() require("grug-far").grug_far() end,
-        -- function() require("grug-far").grug_far({ prefills = { search = vim.fn.expand("<cword>") } }) end,
-        mode = { "n", "x" },
-        desc = "Search & replace in project",
-      },
-    },
-  },
-
-  {
     "rhaiscript/vim-rhai",
     ft = "rhai",
   },
