@@ -45,19 +45,24 @@ return {
     },
   },
 
-  -- {
-  --   "f-person/auto-dark-mode.nvim",
-  --   opts = {
-  --     update_interval = 1000,
-  --     set_dark_mode = function() vim.api.nvim_set_option_value("background", "dark", {}) end,
-  --     set_light_mode = function() vim.api.nvim_set_option_value("background", "light", {}) end,
-  --   },
-  -- },
-
   {
     "cormacrelf/dark-notify",
     event = "ColorScheme",
     config = function() require("dark_notify").run() end,
+  },
+
+  {
+    "folke/todo-comments.nvim",
+    opts = {
+      highlight = {
+        pattern = ".*<(KEYWORDS)\\s*[:-]",
+        keyword = "fg",
+        -- before = "fg",
+      },
+      search = {
+        pattern = "\\b(KEYWORDS)\\s*[:-]",
+      },
+    },
   },
 
   -- You can disable default plugins as follows:
