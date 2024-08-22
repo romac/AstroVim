@@ -55,12 +55,11 @@ return {
     "folke/todo-comments.nvim",
     opts = {
       highlight = {
-        pattern = ".*<(KEYWORDS)\\s*[:-]",
+        pattern = { ".*<(KEYWORDS)?\\s*[:-]", ".*<(KEYWORDS)\\(\\w*\\)\\s*[:-]" },
         keyword = "fg",
-        -- before = "fg",
       },
       search = {
-        pattern = "\\b(KEYWORDS)\\s*[:-]",
+        pattern = "\\b(KEYWORDS)(\\(\\w*\\))?\\s*[:-]",
       },
     },
   },
