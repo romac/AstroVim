@@ -13,6 +13,7 @@ return {
       "lua",
       "regex",
       "sql",
+      "tlaplus",
       "vim",
       "wit",
     })
