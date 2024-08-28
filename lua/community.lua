@@ -28,6 +28,7 @@ return {
   { import = "astrocommunity.pack.rust" },
   { import = "astrocommunity.pack.scala" },
   { import = "astrocommunity.pack.swift" },
+  { import = "astrocommunity.pack.typescript" },
 
   -- Copilot
   { import = "astrocommunity.completion.copilot-lua-cmp" },
