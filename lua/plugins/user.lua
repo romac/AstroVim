@@ -65,7 +65,7 @@ return {
   },
 
   {
-    "tlaplus-community/tlaplus-nvim-plugin",
+    "florentc/vim-tla",
     ft = "tla",
   },
 
