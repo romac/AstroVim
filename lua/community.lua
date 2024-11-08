@@ -47,5 +47,6 @@ return {
   -- Search & Replace
   { import = "astrocommunity.search.grug-far-nvim" },
 
-  -- import/override with your plugins folder
+  -- Zen Mode
+  { import = "astrocommunity.editing-support.true-zen-nvim" },
 }
