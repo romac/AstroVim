@@ -24,13 +24,13 @@ return {
 
         maps.n[prefix] = { desc = " Avante" }
 
-        maps.v[prefix .. "r"] = { function() require("avante.api").refresh() end, desc = "Avante refresh" }
+        maps.v[prefix .. "r"] = { function() require("avante.api").refresh() end, desc = "Refresh Avante" }
 
-        maps.n[prefix .. "a"] = { function() require("avante.api").ask() end, desc = "Avante ask" }
-        maps.v[prefix .. "a"] = { function() require("avante.api").ask() end, desc = "Avante ask" }
+        maps.n[prefix .. "a"] = { function() require("avante.api").ask() end, desc = "Ask Avante" }
+        maps.v[prefix .. "a"] = { function() require("avante.api").ask() end, desc = "Ask Avante" }
 
-        maps.n[prefix .. "e"] = { function() require("avante.api").edit() end, desc = "Avante edit" }
-        maps.v[prefix .. "e"] = { function() require("avante.api").edit() end, desc = "Avante edit" }
+        maps.n[prefix .. "e"] = { function() require("avante.api").edit() end, desc = "Edit with Avante" }
+        maps.v[prefix .. "e"] = { function() require("avante.api").edit() end, desc = "Edit with Avante" }
 
         -- -- the following key bindings do not have an official api implementation
         -- maps.n.co = { "<Plug>(AvanteConflictOurs)", desc = "Choose ours", expr = true }
@@ -54,8 +54,8 @@ return {
     },
   },
   opts = {
-    provider = "copilot",
-    hints = false,
+    provider = "claude",
+    hints = { enabled = false },
   },
   specs = { -- configure optional plugins
     {
