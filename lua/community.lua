@@ -15,6 +15,13 @@ return {
     },
   },
 
+  {
+    "folke/tokyonight.nvim",
+    lazy = false,
+    priority = 1000,
+    opts = {},
+  },
+
   -- Rainbow
   { import = "astrocommunity.editing-support.rainbow-delimiters-nvim" },
 
