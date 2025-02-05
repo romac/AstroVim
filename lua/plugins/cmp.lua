@@ -37,6 +37,13 @@ return {
 
       local cmp = require "cmp"
 
+      opts.formatting = {
+        format = function(_, vim_item)
+          vim_item.abbr = string.sub(vim_item.abbr, 1, 40)
+          return vim_item
+        end,
+      }
+
       opts.sources = cmp.config.sources {
         {
           name = "nvim_lsp",
