@@ -1,6 +1,8 @@
 -- AstroLSP allows you to customize the features in AstroNvim's LSP configuration engine
 -- Configuration documentation can be found with `:h astrolsp`
 
+local lspconfig = require "lspconfig"
+
 ---@type LazySpec
 return {
   "AstroNvim/astrolsp",
@@ -41,6 +43,7 @@ return {
       "fish",
       "gleam",
       "quint",
+      "flix",
       "rhai",
       "sourcekit",
     },
@@ -110,6 +113,13 @@ return {
         cmd = { "fish-lsp", "start" },
         filetypes = { "fish" },
         root_dir = function(_) return vim.fn.getcwd() end,
+      },
+
+      -- Flix
+      flix = {
+        cmd = { "flix", "lsp", "10435" },
+        filetypes = { "flix" },
+        root_dir = lspconfig.util.root_pattern "flix.toml" or vim.fs.dirname,
       },
     },
 
