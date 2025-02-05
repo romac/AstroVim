@@ -157,7 +157,17 @@ return {
         },
       },
     },
-    -- mappings to be set up on attaching of a language server
+
+    -- Configure buffer local user commands to add when attaching a language server
+    commands = {
+      Format = {
+        function() vim.lsp.buf.format() end,
+        cond = "textDocument/formatting",
+        desc = "Format file with LSP",
+      },
+    },
+
+    -- Configuration of mappings added when attaching a language server during the core `on_attach` function
     mappings = {
       n = {
         gl = { function() vim.diagnostic.open_float() end, desc = "Hover diagnostics" },
