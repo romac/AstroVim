@@ -15,11 +15,29 @@ return {
     },
   },
 
+  -- {
+  --   "folke/tokyonight.nvim",
+  --   lazy = false,
+  --   priority = 1000,
+  --   opts = {},
+  -- },
+
+  -- LuaSnip
   {
-    "folke/tokyonight.nvim",
-    lazy = false,
-    priority = 1000,
-    opts = {},
+    "L3MON4D3/LuaSnip",
+    enabled = true,
+    specs = { { "Saghen/blink.cmp", opts = { snippets = { preset = "luasnip" } } } },
+  },
+
+  -- Blink completion
+  { import = "astrocommunity.completion.blink-cmp" },
+  {
+    "Saghen/blink.cmp",
+    opts = {
+      completion = {
+        list = { selection = { preselect = true, auto_insert = true } },
+      },
+    },
   },
 
   -- Rainbow

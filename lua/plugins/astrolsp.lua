@@ -167,6 +167,9 @@ return {
       },
     },
 
+    -- Configure default capabilities for language servers (`:h vim.lsp.protocol.make_client.capabilities()`)
+    capabilities = require("blink.cmp").get_lsp_capabilities(),
+
     -- Configuration of mappings added when attaching a language server during the core `on_attach` function
     mappings = {
       n = {
