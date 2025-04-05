@@ -51,6 +51,9 @@ return {
   -- Copilot
   { import = "astrocommunity.completion.copilot-lua-cmp" },
 
+  -- Avante
+  { import = "astrocommunity.completion.avante-nvim" },
+
   -- Easy align
   { import = "astrocommunity.syntax.vim-easy-align" },
   {

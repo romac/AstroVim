@@ -10,7 +10,7 @@ return {
       -- Make sure to use the names found in `:Mason`
       ensure_installed = {
         -- install language servers
-        "lua_ls",
+        "lua-language-server",
         "rust-analyzer",
         "haskell-language-server",
 

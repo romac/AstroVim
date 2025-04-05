@@ -5,6 +5,9 @@
 ---@type LazySpec
 return {
 
+  { "goolord/alpha-nvim", enabled = false },
+  { "nvim-telescope/telescope.nvim", enabled = false },
+
   -- customize dashboard options
   {
     "folke/snacks.nvim",
