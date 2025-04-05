@@ -3,6 +3,8 @@
 -- NOTE: We highly recommend setting up the Lua Language Server (`:LspInstall lua_ls`)
 --       as this provides autocomplete and documentation while editing
 
+local virtual_lines_enabled = true
+
 ---@type LazySpec
 return {
   "AstroNvim/astrocore",
@@ -77,6 +79,33 @@ return {
             )
           end,
           desc = "Close buffer from tabline",
+        },
+
+        ["<Leader>uV"] = {
+          function()
+            if virtual_lines_enabled then
+              virtual_lines_enabled = false
+              vim.diagnostic.config {
+                virtual_text = true,
+                virtual_lines = false,
+              }
+            else
+              virtual_lines_enabled = true
+              vim.diagnostic.config {
+                virtual_text = {
+                  severity = {
+                    max = vim.diagnostic.severity.WARN,
+                  },
+                },
+                virtual_lines = {
+                  severity = {
+                    min = vim.diagnostic.severity.ERROR,
+                  },
+                },
+              }
+            end
+          end,
+          desc = "Toggle virtual lines",
         },
 
         -- tables with just a `desc` key will be registered with which-key if it's installed
