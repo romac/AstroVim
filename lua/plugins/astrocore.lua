@@ -21,8 +21,16 @@ return {
     },
     -- Diagnostics configuration (for vim.diagnostics.config({...})) when diagnostics are on
     diagnostics = {
-      virtual_text = true,
-      underline = true,
+      virtual_text = {
+        severity = {
+          max = vim.diagnostic.severity.WARN,
+        },
+      },
+      virtual_lines = {
+        severity = {
+          min = vim.diagnostic.severity.ERROR,
+        },
+      },
     },
     -- passed to `vim.filetype.add`
     filetypes = {
@@ -40,7 +48,7 @@ return {
     -- vim options can be configured here
     options = {
       opt = { -- vim.opt.<key>
-        relativenumber = true, -- sets vim.opt.relativenumber
+        relativenumber = false, -- sets vim.opt.relativenumber
         number = true, -- sets vim.opt.number
         spell = false, -- sets vim.opt.spell
         signcolumn = "yes", -- sets vim.opt.signcolumn to yes
