@@ -47,9 +47,10 @@ return {
     servers = {
       "cairo",
       "fish",
-      "gleam",
-      "quint",
       "flix",
+      "gleam",
+      "pyrefly",
+      "quint",
       "rhai",
       "sourcekit",
     },
@@ -94,6 +95,31 @@ return {
         },
       },
 
+      hls = {
+        cmd = { "haskell-language-server-wrapper", "--lsp" },
+        filetypes = { "haskell", "lhaskell", "cabal" },
+        root_dir = lspconfig.util.root_pattern(
+          "*.cabal",
+          "stack.yaml",
+          "cabal.project",
+          "cabal.project.local",
+          "hie.yaml"
+        ),
+        settings = {
+          haskell = {
+            formattingProvider = "ormolu",
+            hlintOn = true,
+            plugins = {
+              "ghcide",
+              "hls-ormolu-plugin",
+              "hls-fourmolu-plugin",
+              "hls-hlint-plugin",
+              "hls-cabal-gild-plugin",
+            },
+          },
+        },
+      },
+
       -- Quint
       quint = {
         cmd = { "quint-language-server", "--stdio" },
@@ -112,7 +138,7 @@ return {
       cairo = {
         cmd = { "scarb", "cairo-language-server" },
         filetypes = { "cairo" },
-        root_dir = function(_) return vim.fn.getcwd() end,
+        root_dir = lspconfig.util.root_pattern "Scarb.toml",
       },
 
       -- Fish
@@ -126,7 +152,14 @@ return {
       flix = {
         cmd = { "flix", "lsp", "10435" },
         filetypes = { "flix" },
-        root_dir = lspconfig.util.root_pattern "flix.toml" or vim.fs.dirname,
+        root_dir = lspconfig.util.root_pattern "flix.toml",
+      },
+
+      pyrefly = {
+        cmd = { "pyrefly", "lsp" },
+        filetypes = { "python" },
+        settings = {},
+        root_dir = lspconfig.util.root_pattern("pyrefly.toml", "pyproject.toml"),
       },
     },
     -- customize how language servers are attached
@@ -140,28 +173,6 @@ return {
     },
     -- Configure buffer local auto commands to add when attaching a language server
     autocmds = {
-      lsp_document_highlight = {
-        -- Optional condition to create/delete auto command group
-        -- can either be a string of a client capability or a function of `fun(client, bufnr): boolean`
-        -- condition will be resolved for each client on each execution and if it ever fails for all clients,
-        -- the auto commands will be deleted for that buffer
-        cond = "textDocument/documentHighlight",
-        -- cond = function(client, bufnr) return client.name == "lua_ls" end,
-        -- list of auto commands to set
-        {
-          -- events to trigger
-          event = { "CursorHold", "CursorHoldI" },
-          -- the rest of the autocmd options (:h nvim_create_autocmd)
-          desc = "Document Highlighting",
-          callback = function() vim.lsp.buf.document_highlight() end,
-        },
-        {
-          event = { "CursorMoved", "CursorMovedI", "BufLeave" },
-          desc = "Document Highlighting Clear",
-          callback = function() vim.lsp.buf.clear_references() end,
-        },
-      },
-
       -- first key is the `augroup` to add the auto commands to (:h augroup)
       lsp_codelens_refresh = {
         -- Optional condition to create/delete auto command group
@@ -205,14 +216,14 @@ return {
           function() require("astrolsp.toggles").buffer_semantic_tokens() end,
           desc = "Toggle LSP semantic highlight (buffer)",
           cond = function(client)
-            return client.supports_method "textDocument/semanticTokens/full" and vim.lsp.semantic_tokens ~= nil
+            return client:supports_method "textDocument/semanticTokens/full" and vim.lsp.semantic_tokens ~= nil
           end,
         },
       },
     },
     -- A custom `on_attach` function to be run after the default `on_attach` function
     -- takes two parameters `client` and `bufnr`  (`:h lspconfig-setup`)
-    on_attach = function(client, bufnr)
+    on_attach = function(_client, _bufnr)
       -- this would disable semanticTokensProvider for all clients
       -- client.server_capabilities.semanticTokensProvider = nil
     end,
