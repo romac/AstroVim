@@ -9,6 +9,7 @@ return {
         "dockerfile",
         "fish",
         "gleam",
+        "java",
         "just",
         "lua",
         "regex",
