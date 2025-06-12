@@ -1,0 +1,1 @@
+/Users/romac/Code/tree-sitter-tracing/queries/highlights.scm
