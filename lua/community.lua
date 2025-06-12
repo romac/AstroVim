@@ -40,7 +40,7 @@ return {
   -- { import = "astrocommunity.snippet.nvim-snippets" },
 
   -- Packs
-  { import = "astrocommunity.pack.go" },
+  -- { import = "astrocommunity.pack.go" },
   { import = "astrocommunity.pack.lua" },
   { import = "astrocommunity.pack.nix" },
   { import = "astrocommunity.pack.rust" },
