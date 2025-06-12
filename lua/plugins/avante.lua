@@ -4,12 +4,15 @@ return {
   opts = {
     provider = "copilotclaude",
     hints = { enabled = false },
-    vendors = {
+    providers = {
       copilotclaude = {
         __inherited_from = "copilot",
         api_key_name = "GITHUB_TOKEN",
-        model = "claude-3.5-sonnet",
-        max_tokens = 4096,
+        model = "claude-4-sonnet",
+        extra_request_body = {
+          temperature = 0.75,
+          max_tokens = 8192,
+        },
       },
     },
   },
