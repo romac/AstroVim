@@ -38,6 +38,18 @@ parser_config.effed = {
 
 vim.treesitter.language.register("effed", "eff")
 
+-- Setup parser for Quint
+---@diagnostic disable-next-line: inject-field
+parser_config.quint = {
+  install_info = {
+    url = "~/Code/tree-sitter-quint",
+    files = { "src/parser.c" },
+  },
+  filetype = "qnt",
+}
+
+vim.treesitter.language.register("quint", "qnt")
+
 -- -- Setup parser for tracing log files
 -- ---@diagnostic disable-next-line: inject-field
 -- parser_config.tracing = {
