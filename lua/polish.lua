@@ -14,6 +14,8 @@ vim.filetype.add {
     log = "tracing",
     tracing = "tracing",
     cairo = "cairo",
+    udl = "webidl",
+    ktn = "kitten",
   },
   filename = {
     ["Justfile"] = "just",
@@ -92,6 +94,8 @@ vim.api.nvim_create_autocmd({ "VimLeave" }, {
     vim.fn.system { "wezterm", "cli", "set-tab-title", "" }
   end,
 })
+
+require "neovide"
 
 -- -- https://github.com/neovim/neovim/issues/30985
 -- for _, method in ipairs { "textDocument/diagnostic", "workspace/diagnostic" } do
