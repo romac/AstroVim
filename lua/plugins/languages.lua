@@ -9,4 +9,9 @@ return {
     "florentc/vim-tla",
     ft = "tla",
   },
+
+  {
+    "padenot/webidl.nvim",
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+  },
 }
