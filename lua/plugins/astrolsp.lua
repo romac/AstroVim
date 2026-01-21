@@ -27,7 +27,6 @@ return {
         ignore_filetypes = { -- disable format on save for specified filetypes
           "crates.nvim",
           "markdown",
-          "python",
           "toml",
           "fish",
           "c",
@@ -49,10 +48,11 @@ return {
       "fish",
       "flix",
       "gleam",
-      "pyrefly",
+      -- "pyrefly",
       "quint",
       "rhai",
       "sourcekit",
+      "ty",
     },
     -- customize language server configuration options passed to `lspconfig`
     ---@diagnostic disable: missing-fields
@@ -155,12 +155,27 @@ return {
         root_dir = lspconfig.util.root_pattern "flix.toml",
       },
 
-      pyrefly = {
-        cmd = { "pyrefly", "lsp" },
+      -- Ty
+      ty = {
+        cmd = { "ty", "server" },
         filetypes = { "python" },
-        settings = {},
-        root_dir = lspconfig.util.root_pattern("pyrefly.toml", "pyproject.toml"),
+        root_dir = lspconfig.util.root_pattern(
+          "ty.toml",
+          "pyproject.toml",
+          "setup.py",
+          "setup.cfg",
+          "requirements.txt",
+          ".git"
+        ),
       },
+
+      -- -- Pyrefly
+      -- pyrefly = {
+      --   cmd = { "pyrefly", "lsp" },
+      --   filetypes = { "python" },
+      --   settings = {},
+      --   root_dir = lspconfig.util.root_pattern("pyrefly.toml", "pyproject.toml"),
+      -- },
     },
     -- customize how language servers are attached
     handlers = {
