@@ -4,6 +4,28 @@
 --       as this provides autocomplete and documentation while editing
 
 local lspconfig = require "lspconfig"
+local configs = require "lspconfig.configs"
+
+-- 1. Register Custom Servers BEFORE the return statement
+-- This "teaches" lspconfig about servers it doesn't know by default.
+local custom_configs = {
+  quint = { cmd = { "quint-language-server", "--stdio" }, filetypes = { "quint" } },
+  rhai = { cmd = { "rhai", "lsp", "stdio" }, filetypes = { "rhai" } },
+  flix = { cmd = { "flix", "lsp", "10435" }, filetypes = { "flix" } },
+  ty = { cmd = { "ty", "server" }, filetypes = { "python" } },
+}
+
+for name, config in pairs(custom_configs) do
+  if not configs[name] then
+    configs[name] = {
+      default_config = {
+        cmd = config.cmd,
+        filetypes = config.filetypes,
+        root_dir = function(_) return vim.fn.getcwd() end,
+      },
+    }
+  end
+end
 
 ---@type LazySpec
 return {
@@ -13,7 +35,7 @@ return {
     -- Configuration table of features provided by AstroLSP
     features = {
       codelens = true, -- enable/disable codelens refresh on start
-      inlay_hints = false, -- enable/disable inlay hints on start
+      inlay_hints = true, -- enable/disable inlay hints on start
       semantic_tokens = true, -- enable/disable semantic token highlighting
     },
     -- customize lsp formatting options
@@ -29,8 +51,6 @@ return {
           "markdown",
           "toml",
           "fish",
-          "c",
-          "cpp",
         },
       },
       disabled = { -- disable formatting capabilities for the listed language servers
@@ -44,9 +64,7 @@ return {
     },
     -- enable servers that you already have installed without mason
     servers = {
-      "cairo",
-      "fish",
-      "flix",
+      "fish_lsp",
       "gleam",
       -- "pyrefly",
       "quint",
@@ -70,10 +88,10 @@ return {
               buildScripts = {
                 enable = true,
               },
-              check = {
-                command = "clippy",
-                allTargets = true,
-              },
+            },
+            check = {
+              command = "clippy",
+              allTargets = true,
             },
             completion = {
               postfix = {
@@ -91,90 +109,60 @@ return {
             diagnostics = {
               disabled = { "unresolved-proc-macro" },
             },
-          },
-        },
-      },
-
-      hls = {
-        cmd = { "haskell-language-server-wrapper", "--lsp" },
-        filetypes = { "haskell", "lhaskell", "cabal" },
-        root_dir = lspconfig.util.root_pattern(
-          "*.cabal",
-          "stack.yaml",
-          "cabal.project",
-          "cabal.project.local",
-          "hie.yaml"
-        ),
-        settings = {
-          haskell = {
-            formattingProvider = "ormolu",
-            hlintOn = true,
-            plugins = {
-              "ghcide",
-              "hls-ormolu-plugin",
-              "hls-fourmolu-plugin",
-              "hls-hlint-plugin",
-              "hls-cabal-gild-plugin",
+            inlayHints = {
+              typeHints = {
+                enable = false,
+              },
+              parameterHints = {
+                enable = true,
+              },
+              chainingHints = {
+                enable = true,
+              },
+              closureReturnTypeHints = {
+                enable = "with_block",
+              },
+              implicitDrops = {
+                enable = false,
+              },
             },
           },
         },
       },
 
-      -- Quint
-      quint = {
-        cmd = { "quint-language-server", "--stdio" },
-        filetypes = { "quint" },
-        root_dir = function(_) return vim.fn.getcwd() end,
-      },
+      -- -- Quint
+      -- quint = {
+      --   cmd = { "quint-language-server", "--stdio" },
+      --   filetypes = { "quint" },
+      --   root_dir = function(_) return vim.fn.getcwd() end,
+      -- },
 
-      -- Rhai
-      rhai = {
-        cmd = { "rhai", "lsp", "stdio" },
-        filetypes = { "rhai" },
-        root_dir = function(_) return vim.fn.getcwd() end,
-      },
+      -- -- Rhai
+      -- rhai = {
+      --   cmd = { "rhai", "lsp", "stdio" },
+      --   filetypes = { "rhai" },
+      --   root_dir = function(_) return vim.fn.getcwd() end,
+      -- },
 
-      -- Cairo
-      cairo = {
-        cmd = { "scarb", "cairo-language-server" },
-        filetypes = { "cairo" },
-        root_dir = lspconfig.util.root_pattern "Scarb.toml",
-      },
+      -- -- Flix
+      -- flix = {
+      --   cmd = { "flix", "lsp", "10435" },
+      --   filetypes = { "flix" },
+      --   root_dir = lspconfig.util.root_pattern "flix.toml",
+      -- },
 
-      -- Fish
-      fish = {
-        cmd = { "fish-lsp", "start" },
-        filetypes = { "fish" },
-        root_dir = function(_) return vim.fn.getcwd() end,
-      },
-
-      -- Flix
-      flix = {
-        cmd = { "flix", "lsp", "10435" },
-        filetypes = { "flix" },
-        root_dir = lspconfig.util.root_pattern "flix.toml",
-      },
-
-      -- Ty
-      ty = {
-        cmd = { "ty", "server" },
-        filetypes = { "python" },
-        root_dir = lspconfig.util.root_pattern(
-          "ty.toml",
-          "pyproject.toml",
-          "setup.py",
-          "setup.cfg",
-          "requirements.txt",
-          ".git"
-        ),
-      },
-
-      -- -- Pyrefly
-      -- pyrefly = {
-      --   cmd = { "pyrefly", "lsp" },
+      -- -- Ty
+      -- ty = {
+      --   cmd = { "ty", "server" },
       --   filetypes = { "python" },
-      --   settings = {},
-      --   root_dir = lspconfig.util.root_pattern("pyrefly.toml", "pyproject.toml"),
+      --   root_dir = lspconfig.util.root_pattern(
+      --     "ty.toml",
+      --     "pyproject.toml",
+      --     "setup.py",
+      --     "setup.cfg",
+      --     "requirements.txt",
+      --     ".git"
+      --   ),
       -- },
     },
     -- customize how language servers are attached
@@ -186,6 +174,7 @@ return {
       -- rust_analyzer = false, -- setting a handler to false will disable the set up of that language server
       -- pyright = function(_, opts) require("lspconfig").pyright.setup(opts) end -- or a custom handler function can be passed
     },
+
     -- Configure buffer local auto commands to add when attaching a language server
     autocmds = {
       -- first key is the `augroup` to add the auto commands to (:h augroup)
@@ -234,6 +223,67 @@ return {
             return client:supports_method "textDocument/semanticTokens/full" and vim.lsp.semantic_tokens ~= nil
           end,
         },
+
+        -- Metals commands (only when metals LSP is active)
+        ["<Leader>M"] = { desc = "Metals", cond = function(client) return client.name == "metals" end },
+
+        -- Build
+        ["<Leader>Mi"] = { function() require("metals").import_build() end, desc = "Import build", cond = function(client) return client.name == "metals" end },
+        ["<Leader>Mc"] = { function() require("metals").connect_build() end, desc = "Connect build", cond = function(client) return client.name == "metals" end },
+        ["<Leader>Md"] = { function() require("metals").disconnect_build() end, desc = "Disconnect build", cond = function(client) return client.name == "metals" end },
+        ["<Leader>Mr"] = { function() require("metals").restart_build_server() end, desc = "Restart build server", cond = function(client) return client.name == "metals" end },
+        ["<Leader>Mb"] = { function() require("metals").generate_bsp_config() end, desc = "Generate BSP config", cond = function(client) return client.name == "metals" end },
+        ["<Leader>MS"] = { function() require("metals").switch_bsp() end, desc = "Switch BSP server", cond = function(client) return client.name == "metals" end },
+
+        -- Compile
+        ["<Leader>Mk"] = { function() require("metals").compile_cascade() end, desc = "Compile cascade", cond = function(client) return client.name == "metals" end },
+        ["<Leader>MK"] = { function() require("metals").compile_clean() end, desc = "Compile clean", cond = function(client) return client.name == "metals" end },
+        ["<Leader>Mx"] = { function() require("metals").compile_cancel() end, desc = "Cancel compilation", cond = function(client) return client.name == "metals" end },
+
+        -- Code actions
+        ["<Leader>Mo"] = { function() require("metals").organize_imports() end, desc = "Organize imports", cond = function(client) return client.name == "metals" end },
+        ["<Leader>Ms"] = { function() require("metals").goto_super_method() end, desc = "Goto super method", cond = function(client) return client.name == "metals" end },
+        ["<Leader>Mh"] = { function() require("metals").super_method_hierarchy() end, desc = "Super method hierarchy", cond = function(client) return client.name == "metals" end },
+
+        -- Scalafix
+        ["<Leader>Mf"] = { function() require("metals").run_scalafix() end, desc = "Run Scalafix", cond = function(client) return client.name == "metals" end },
+        ["<Leader>MF"] = { function() require("metals").run_single_scalafix() end, desc = "Run single Scalafix rule", cond = function(client) return client.name == "metals" end },
+
+        -- New files/projects
+        ["<Leader>Mn"] = { function() require("metals").new_scala_file() end, desc = "New Scala file", cond = function(client) return client.name == "metals" end },
+        ["<Leader>MN"] = { function() require("metals").new_java_file() end, desc = "New Java file", cond = function(client) return client.name == "metals" end },
+        ["<Leader>Mp"] = { function() require("metals").new_scala_project() end, desc = "New Scala project", cond = function(client) return client.name == "metals" end },
+
+        -- Worksheets
+        ["<Leader>Mw"] = { function() require("metals").quick_worksheet() end, desc = "Quick worksheet", cond = function(client) return client.name == "metals" end },
+        ["<Leader>MW"] = { function() require("metals").copy_worksheet_output() end, desc = "Copy worksheet output", cond = function(client) return client.name == "metals" end },
+
+        -- Diagnostics & info
+        ["<Leader>MD"] = { function() require("metals").run_doctor() end, desc = "Run doctor", cond = function(client) return client.name == "metals" end },
+        ["<Leader>MI"] = { function() require("metals").info() end, desc = "Metals info", cond = function(client) return client.name == "metals" end },
+        ["<Leader>Mt"] = { function() require("metals").toggle_logs() end, desc = "Toggle logs", cond = function(client) return client.name == "metals" end },
+        ["<Leader>Ma"] = { function() require("metals").analyze_stacktrace() end, desc = "Analyze stacktrace", cond = function(client) return client.name == "metals" end },
+        ["<Leader>MT"] = { function() require("metals").show_build_target_info() end, desc = "Build target info", cond = function(client) return client.name == "metals" end },
+
+        -- Decompile / Semanticdb / TASTy
+        ["<Leader>Mj"] = { function() require("metals").show_javap() end, desc = "Show javap", cond = function(client) return client.name == "metals" end },
+        ["<Leader>MJ"] = { function() require("metals").show_javap_verbose() end, desc = "Show javap (verbose)", cond = function(client) return client.name == "metals" end },
+        ["<Leader>MC"] = { function() require("metals").show_cfr() end, desc = "Show cfr decompiled", cond = function(client) return client.name == "metals" end },
+        ["<Leader>My"] = { function() require("metals").show_tasty() end, desc = "Show TASTy", cond = function(client) return client.name == "metals" end },
+        ["<Leader>Me"] = { function() require("metals").show_semanticdb_compact() end, desc = "Show SemanticDB (compact)", cond = function(client) return client.name == "metals" end },
+        ["<Leader>ME"] = { function() require("metals").show_semanticdb_detailed() end, desc = "Show SemanticDB (detailed)", cond = function(client) return client.name == "metals" end },
+
+        -- Workspace
+        ["<Leader>MR"] = { function() require("metals").reset_workspace() end, desc = "Reset workspace", cond = function(client) return client.name == "metals" end },
+        ["<Leader>Mm"] = { function() require("metals").restart_metals() end, desc = "Restart Metals", cond = function(client) return client.name == "metals" end },
+        ["<Leader>Mg"] = { function() require("metals").scan_sources() end, desc = "Scan sources", cond = function(client) return client.name == "metals" end },
+        ["<Leader>MZ"] = { function() require("metals").find_in_dependency_jars() end, desc = "Find in dependency jars", cond = function(client) return client.name == "metals" end },
+
+        -- Ammonite / Scala CLI
+        ["<Leader>M1"] = { function() require("metals").start_ammonite() end, desc = "Start Ammonite", cond = function(client) return client.name == "metals" end },
+        ["<Leader>M!"] = { function() require("metals").stop_ammonite() end, desc = "Stop Ammonite", cond = function(client) return client.name == "metals" end },
+        ["<Leader>M2"] = { function() require("metals").start_scala_cli() end, desc = "Start Scala CLI", cond = function(client) return client.name == "metals" end },
+        ["<Leader>M@"] = { function() require("metals").stop_scala_cli() end, desc = "Stop Scala CLI", cond = function(client) return client.name == "metals" end },
       },
     },
     -- A custom `on_attach` function to be run after the default `on_attach` function
