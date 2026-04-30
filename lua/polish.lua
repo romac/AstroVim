@@ -26,31 +26,32 @@ vim.filetype.add {
   },
 }
 
-local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+local function register_custom_parsers()
+  local parsers = require "nvim-treesitter.parsers"
 
--- Setup parser for Effed
----@diagnostic disable-next-line: inject-field
-parser_config.effed = {
-  install_info = {
-    url = "~/Code/effed/tree-sitter-effed",
-    files = { "src/parser.c" },
-  },
-  filetype = "eff",
-}
+  parsers.effed = {
+    install_info = {
+      path = vim.fn.expand "~/Code/effed/tree-sitter-effed",
+      files = { "src/parser.c" },
+    },
+  }
 
-vim.treesitter.language.register("effed", "eff")
+  parsers.quint = {
+    install_info = {
+      path = vim.fn.expand "~/Code/tree-sitter-quint",
+      files = { "src/parser.c" },
+    },
+  }
+end
 
--- Setup parser for Quint
----@diagnostic disable-next-line: inject-field
-parser_config.quint = {
-  install_info = {
-    url = "~/Code/tree-sitter-quint",
-    files = { "src/parser.c" },
-  },
-  filetype = "qnt",
-}
+register_custom_parsers()
+vim.api.nvim_create_autocmd("User", {
+  pattern = "TSUpdate",
+  callback = register_custom_parsers,
+})
 
-vim.treesitter.language.register("quint", "qnt")
+vim.treesitter.language.register("effed", "effed")
+vim.treesitter.language.register("quint", "quint")
 
 -- -- Setup parser for tracing log files
 -- ---@diagnostic disable-next-line: inject-field
@@ -97,6 +98,12 @@ if vim.env.TERM_PROGRAM == "WezTerm" then
   })
 end
 
+-- Enable word wrap for markdown files
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "markdown",
+  callback = function() vim.opt_local.wrap = true end,
+})
+
 require "neovide"
 
 -- -- https://github.com/neovim/neovim/issues/30985
@@ -107,3 +114,7 @@ require "neovide"
 --     return default_diagnostic_handler(err, result, context, config)
 --   end
 -- end
+
+-- Transparent background for LSP inlay hints
+local current_hl = vim.api.nvim_get_hl(0, { name = "LspInlayHint" })
+vim.api.nvim_set_hl(0, "LspInlayHint", { fg = current_hl.fg, bg = "NONE" })

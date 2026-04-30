@@ -19,9 +19,11 @@ return {
         "haskell-language-server",
         "fourmolu",
 
-        -- install formatters
         -- JavaScript/TypeScript
         "prettier",
+
+        -- C/C++
+        "clang-format",
 
         -- Other
         "tree-sitter-cli",

@@ -19,13 +19,13 @@ return {
   {
     "L3MON4D3/LuaSnip",
     enabled = true,
-    specs = { { "Saghen/blink.cmp", opts = { snippets = { preset = "luasnip" } } } },
+    specs = { { "saghen/blink.cmp", opts = { snippets = { preset = "luasnip" } } } },
   },
 
   -- Blink completion
   { import = "astrocommunity.completion.blink-cmp" },
   {
-    "Saghen/blink.cmp",
+    "saghen/blink.cmp",
     opts = {
       completion = {
         list = { selection = { preselect = true, auto_insert = true } },
@@ -50,37 +50,48 @@ return {
 
   -- Copilot
   { import = "astrocommunity.completion.copilot-lua-cmp" },
-  {
-    "copilotlsp-nvim/copilot-lsp",
-    init = function()
-      vim.g.copilot_nes_debounce = 500
-      vim.lsp.enable "copilot_ls"
-      -- vim.keymap.set("n", "<tab>", function()
-      --   local bufnr = vim.api.nvim_get_current_buf()
-      --   local state = vim.b[bufnr].nes_state
-      --   if state then
-      --     -- Try to jump to the start of the suggestion edit.
-      --     -- If already at the start, then apply the pending suggestion and jump to the end of the edit.
-      --     local _ = require("copilot-lsp.nes").walk_cursor_start_edit()
-      --       or (require("copilot-lsp.nes").apply_pending_nes() and require("copilot-lsp.nes").walk_cursor_end_edit())
-      --     return nil
-      --   else
-      --     -- Resolving the terminal's inability to distinguish between `TAB` and `<C-i>` in normal mode
-      --     return "<C-i>"
-      --   end
-      -- end, { desc = "Accept Copilot NES suggestion", expr = true })
-    end,
-  },
+  -- {
+  --   "copilotlsp-nvim/copilot-lsp",
+  --   init = function()
+  --     vim.g.copilot_nes_debounce = 500
+  --     vim.lsp.enable "copilot_ls"
+  --     -- vim.keymap.set("n", "<tab>", function()
+  --     --   local bufnr = vim.api.nvim_get_current_buf()
+  --     --   local state = vim.b[bufnr].nes_state
+  --     --   if state then
+  --     --     -- Try to jump to the start of the suggestion edit.
+  --     --     -- If already at the start, then apply the pending suggestion and jump to the end of the edit.
+  --     --     local _ = require("copilot-lsp.nes").walk_cursor_start_edit()
+  --     --       or (require("copilot-lsp.nes").apply_pending_nes() and require("copilot-lsp.nes").walk_cursor_end_edit())
+  --     --     return nil
+  --     --   else
+  --     --     -- Resolving the terminal's inability to distinguish between `TAB` and `<C-i>` in normal mode
+  --     --     return "<C-i>"
+  --     --   end
+  --     -- end, { desc = "Accept Copilot NES suggestion", expr = true })
+  --   end,
+  -- },
   {
     "zbirenbaum/copilot.lua",
     enabled = true,
     dependencies = {
-      "copilotlsp-nvim/copilot-lsp",
+      -- "copilotlsp-nvim/copilot-lsp",
     },
     opts = {
-      copilot_model = "claude-4.5-opus",
+      -- copilot_model = "claude-4.5-opus",
+      filetypes = {
+        ["*"] = true,
+        help = false,
+        sh = function()
+          if string.match(vim.fs.basename(vim.api.nvim_buf_get_name(0)), "^%.env.*") then
+            -- disable for .env files
+            return false
+          end
+          return true
+        end,
+      },
       nes = {
-        enabled = true,
+        enabled = false,
         auto_trigger = true,
         keymap = {
           accept_and_goto = "<Tab>",
@@ -92,7 +103,7 @@ return {
   },
 
   -- Avante
-  { import = "astrocommunity.completion.avante-nvim" },
+  -- { import = "astrocommunity.completion.avante-nvim" },
 
   -- Easy align
   { import = "astrocommunity.syntax.vim-easy-align" },
