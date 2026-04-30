@@ -3,12 +3,23 @@
 -- NOTE: We highly recommend setting up the Lua Language Server (`:LspInstall lua_ls`)
 --       as this provides autocomplete and documentation while editing
 
-local lspconfig = require "lspconfig"
 local configs = require "lspconfig.configs"
 
 -- 1. Register Custom Servers BEFORE the return statement
 -- This "teaches" lspconfig about servers it doesn't know by default.
 local custom_configs = {
+  effed = {
+    cmd = { "java", "-jar", "/Users/romac/Code/effed/out/assembly.dest/out.jar", "lsp" },
+    -- cmd = { "/Users/romac/Code/effed/out/nativeImage.dest/native-executable", "lsp" },
+    -- cmd = {
+    --   "java",
+    --   "-agentlib:native-image-agent=config-merge-dir=/tmp/graalvm",
+    --   "-jar",
+    --   "/Users/romac/Code/effed/out/assembly.dest/out.jar",
+    --   "lsp",
+    -- },
+    filetypes = { "effed" },
+  },
   quint = { cmd = { "quint-language-server", "--stdio" }, filetypes = { "quint" } },
   rhai = { cmd = { "rhai", "lsp", "stdio" }, filetypes = { "rhai" } },
   flix = { cmd = { "flix", "lsp", "10435" }, filetypes = { "flix" } },
@@ -64,6 +75,7 @@ return {
     },
     -- enable servers that you already have installed without mason
     servers = {
+      "effed",
       "fish_lsp",
       "gleam",
       -- "pyrefly",
@@ -76,6 +88,11 @@ return {
     ---@diagnostic disable: missing-fields
     config = {
       clangd = { capabilities = { offsetEncoding = "utf-8" } },
+
+      effed = {
+        -- root_dir = lspconfig.util.root_pattern("project.eff", ".git"),
+        single_file_support = true,
+      },
 
       rust_analyzer = {
         settings = {
@@ -228,62 +245,214 @@ return {
         ["<Leader>M"] = { desc = "Metals", cond = function(client) return client.name == "metals" end },
 
         -- Build
-        ["<Leader>Mi"] = { function() require("metals").import_build() end, desc = "Import build", cond = function(client) return client.name == "metals" end },
-        ["<Leader>Mc"] = { function() require("metals").connect_build() end, desc = "Connect build", cond = function(client) return client.name == "metals" end },
-        ["<Leader>Md"] = { function() require("metals").disconnect_build() end, desc = "Disconnect build", cond = function(client) return client.name == "metals" end },
-        ["<Leader>Mr"] = { function() require("metals").restart_build_server() end, desc = "Restart build server", cond = function(client) return client.name == "metals" end },
-        ["<Leader>Mb"] = { function() require("metals").generate_bsp_config() end, desc = "Generate BSP config", cond = function(client) return client.name == "metals" end },
-        ["<Leader>MS"] = { function() require("metals").switch_bsp() end, desc = "Switch BSP server", cond = function(client) return client.name == "metals" end },
+        ["<Leader>Mi"] = {
+          function() require("metals").import_build() end,
+          desc = "Import build",
+          cond = function(client) return client.name == "metals" end,
+        },
+        ["<Leader>Mc"] = {
+          function() require("metals").connect_build() end,
+          desc = "Connect build",
+          cond = function(client) return client.name == "metals" end,
+        },
+        ["<Leader>Md"] = {
+          function() require("metals").disconnect_build() end,
+          desc = "Disconnect build",
+          cond = function(client) return client.name == "metals" end,
+        },
+        ["<Leader>Mr"] = {
+          function() require("metals").restart_build_server() end,
+          desc = "Restart build server",
+          cond = function(client) return client.name == "metals" end,
+        },
+        ["<Leader>Mb"] = {
+          function() require("metals").generate_bsp_config() end,
+          desc = "Generate BSP config",
+          cond = function(client) return client.name == "metals" end,
+        },
+        ["<Leader>MS"] = {
+          function() require("metals").switch_bsp() end,
+          desc = "Switch BSP server",
+          cond = function(client) return client.name == "metals" end,
+        },
 
         -- Compile
-        ["<Leader>Mk"] = { function() require("metals").compile_cascade() end, desc = "Compile cascade", cond = function(client) return client.name == "metals" end },
-        ["<Leader>MK"] = { function() require("metals").compile_clean() end, desc = "Compile clean", cond = function(client) return client.name == "metals" end },
-        ["<Leader>Mx"] = { function() require("metals").compile_cancel() end, desc = "Cancel compilation", cond = function(client) return client.name == "metals" end },
+        ["<Leader>Mk"] = {
+          function() require("metals").compile_cascade() end,
+          desc = "Compile cascade",
+          cond = function(client) return client.name == "metals" end,
+        },
+        ["<Leader>MK"] = {
+          function() require("metals").compile_clean() end,
+          desc = "Compile clean",
+          cond = function(client) return client.name == "metals" end,
+        },
+        ["<Leader>Mx"] = {
+          function() require("metals").compile_cancel() end,
+          desc = "Cancel compilation",
+          cond = function(client) return client.name == "metals" end,
+        },
 
         -- Code actions
-        ["<Leader>Mo"] = { function() require("metals").organize_imports() end, desc = "Organize imports", cond = function(client) return client.name == "metals" end },
-        ["<Leader>Ms"] = { function() require("metals").goto_super_method() end, desc = "Goto super method", cond = function(client) return client.name == "metals" end },
-        ["<Leader>Mh"] = { function() require("metals").super_method_hierarchy() end, desc = "Super method hierarchy", cond = function(client) return client.name == "metals" end },
+        ["<Leader>Mo"] = {
+          function() require("metals").organize_imports() end,
+          desc = "Organize imports",
+          cond = function(client) return client.name == "metals" end,
+        },
+        ["<Leader>Ms"] = {
+          function() require("metals").goto_super_method() end,
+          desc = "Goto super method",
+          cond = function(client) return client.name == "metals" end,
+        },
+        ["<Leader>Mh"] = {
+          function() require("metals").super_method_hierarchy() end,
+          desc = "Super method hierarchy",
+          cond = function(client) return client.name == "metals" end,
+        },
 
         -- Scalafix
-        ["<Leader>Mf"] = { function() require("metals").run_scalafix() end, desc = "Run Scalafix", cond = function(client) return client.name == "metals" end },
-        ["<Leader>MF"] = { function() require("metals").run_single_scalafix() end, desc = "Run single Scalafix rule", cond = function(client) return client.name == "metals" end },
+        ["<Leader>Mf"] = {
+          function() require("metals").run_scalafix() end,
+          desc = "Run Scalafix",
+          cond = function(client) return client.name == "metals" end,
+        },
+        ["<Leader>MF"] = {
+          function() require("metals").run_single_scalafix() end,
+          desc = "Run single Scalafix rule",
+          cond = function(client) return client.name == "metals" end,
+        },
 
         -- New files/projects
-        ["<Leader>Mn"] = { function() require("metals").new_scala_file() end, desc = "New Scala file", cond = function(client) return client.name == "metals" end },
-        ["<Leader>MN"] = { function() require("metals").new_java_file() end, desc = "New Java file", cond = function(client) return client.name == "metals" end },
-        ["<Leader>Mp"] = { function() require("metals").new_scala_project() end, desc = "New Scala project", cond = function(client) return client.name == "metals" end },
+        ["<Leader>Mn"] = {
+          function() require("metals").new_scala_file() end,
+          desc = "New Scala file",
+          cond = function(client) return client.name == "metals" end,
+        },
+        ["<Leader>MN"] = {
+          function() require("metals").new_java_file() end,
+          desc = "New Java file",
+          cond = function(client) return client.name == "metals" end,
+        },
+        ["<Leader>Mp"] = {
+          function() require("metals").new_scala_project() end,
+          desc = "New Scala project",
+          cond = function(client) return client.name == "metals" end,
+        },
 
         -- Worksheets
-        ["<Leader>Mw"] = { function() require("metals").quick_worksheet() end, desc = "Quick worksheet", cond = function(client) return client.name == "metals" end },
-        ["<Leader>MW"] = { function() require("metals").copy_worksheet_output() end, desc = "Copy worksheet output", cond = function(client) return client.name == "metals" end },
+        ["<Leader>Mw"] = {
+          function() require("metals").quick_worksheet() end,
+          desc = "Quick worksheet",
+          cond = function(client) return client.name == "metals" end,
+        },
+        ["<Leader>MW"] = {
+          function() require("metals").copy_worksheet_output() end,
+          desc = "Copy worksheet output",
+          cond = function(client) return client.name == "metals" end,
+        },
 
         -- Diagnostics & info
-        ["<Leader>MD"] = { function() require("metals").run_doctor() end, desc = "Run doctor", cond = function(client) return client.name == "metals" end },
-        ["<Leader>MI"] = { function() require("metals").info() end, desc = "Metals info", cond = function(client) return client.name == "metals" end },
-        ["<Leader>Mt"] = { function() require("metals").toggle_logs() end, desc = "Toggle logs", cond = function(client) return client.name == "metals" end },
-        ["<Leader>Ma"] = { function() require("metals").analyze_stacktrace() end, desc = "Analyze stacktrace", cond = function(client) return client.name == "metals" end },
-        ["<Leader>MT"] = { function() require("metals").show_build_target_info() end, desc = "Build target info", cond = function(client) return client.name == "metals" end },
+        ["<Leader>MD"] = {
+          function() require("metals").run_doctor() end,
+          desc = "Run doctor",
+          cond = function(client) return client.name == "metals" end,
+        },
+        ["<Leader>MI"] = {
+          function() require("metals").info() end,
+          desc = "Metals info",
+          cond = function(client) return client.name == "metals" end,
+        },
+        ["<Leader>Mt"] = {
+          function() require("metals").toggle_logs() end,
+          desc = "Toggle logs",
+          cond = function(client) return client.name == "metals" end,
+        },
+        ["<Leader>Ma"] = {
+          function() require("metals").analyze_stacktrace() end,
+          desc = "Analyze stacktrace",
+          cond = function(client) return client.name == "metals" end,
+        },
+        ["<Leader>MT"] = {
+          function() require("metals").show_build_target_info() end,
+          desc = "Build target info",
+          cond = function(client) return client.name == "metals" end,
+        },
 
         -- Decompile / Semanticdb / TASTy
-        ["<Leader>Mj"] = { function() require("metals").show_javap() end, desc = "Show javap", cond = function(client) return client.name == "metals" end },
-        ["<Leader>MJ"] = { function() require("metals").show_javap_verbose() end, desc = "Show javap (verbose)", cond = function(client) return client.name == "metals" end },
-        ["<Leader>MC"] = { function() require("metals").show_cfr() end, desc = "Show cfr decompiled", cond = function(client) return client.name == "metals" end },
-        ["<Leader>My"] = { function() require("metals").show_tasty() end, desc = "Show TASTy", cond = function(client) return client.name == "metals" end },
-        ["<Leader>Me"] = { function() require("metals").show_semanticdb_compact() end, desc = "Show SemanticDB (compact)", cond = function(client) return client.name == "metals" end },
-        ["<Leader>ME"] = { function() require("metals").show_semanticdb_detailed() end, desc = "Show SemanticDB (detailed)", cond = function(client) return client.name == "metals" end },
+        ["<Leader>Mj"] = {
+          function() require("metals").show_javap() end,
+          desc = "Show javap",
+          cond = function(client) return client.name == "metals" end,
+        },
+        ["<Leader>MJ"] = {
+          function() require("metals").show_javap_verbose() end,
+          desc = "Show javap (verbose)",
+          cond = function(client) return client.name == "metals" end,
+        },
+        ["<Leader>MC"] = {
+          function() require("metals").show_cfr() end,
+          desc = "Show cfr decompiled",
+          cond = function(client) return client.name == "metals" end,
+        },
+        ["<Leader>My"] = {
+          function() require("metals").show_tasty() end,
+          desc = "Show TASTy",
+          cond = function(client) return client.name == "metals" end,
+        },
+        ["<Leader>Me"] = {
+          function() require("metals").show_semanticdb_compact() end,
+          desc = "Show SemanticDB (compact)",
+          cond = function(client) return client.name == "metals" end,
+        },
+        ["<Leader>ME"] = {
+          function() require("metals").show_semanticdb_detailed() end,
+          desc = "Show SemanticDB (detailed)",
+          cond = function(client) return client.name == "metals" end,
+        },
 
         -- Workspace
-        ["<Leader>MR"] = { function() require("metals").reset_workspace() end, desc = "Reset workspace", cond = function(client) return client.name == "metals" end },
-        ["<Leader>Mm"] = { function() require("metals").restart_metals() end, desc = "Restart Metals", cond = function(client) return client.name == "metals" end },
-        ["<Leader>Mg"] = { function() require("metals").scan_sources() end, desc = "Scan sources", cond = function(client) return client.name == "metals" end },
-        ["<Leader>MZ"] = { function() require("metals").find_in_dependency_jars() end, desc = "Find in dependency jars", cond = function(client) return client.name == "metals" end },
+        ["<Leader>MR"] = {
+          function() require("metals").reset_workspace() end,
+          desc = "Reset workspace",
+          cond = function(client) return client.name == "metals" end,
+        },
+        ["<Leader>Mm"] = {
+          function() require("metals").restart_metals() end,
+          desc = "Restart Metals",
+          cond = function(client) return client.name == "metals" end,
+        },
+        ["<Leader>Mg"] = {
+          function() require("metals").scan_sources() end,
+          desc = "Scan sources",
+          cond = function(client) return client.name == "metals" end,
+        },
+        ["<Leader>MZ"] = {
+          function() require("metals").find_in_dependency_jars() end,
+          desc = "Find in dependency jars",
+          cond = function(client) return client.name == "metals" end,
+        },
 
         -- Ammonite / Scala CLI
-        ["<Leader>M1"] = { function() require("metals").start_ammonite() end, desc = "Start Ammonite", cond = function(client) return client.name == "metals" end },
-        ["<Leader>M!"] = { function() require("metals").stop_ammonite() end, desc = "Stop Ammonite", cond = function(client) return client.name == "metals" end },
-        ["<Leader>M2"] = { function() require("metals").start_scala_cli() end, desc = "Start Scala CLI", cond = function(client) return client.name == "metals" end },
-        ["<Leader>M@"] = { function() require("metals").stop_scala_cli() end, desc = "Stop Scala CLI", cond = function(client) return client.name == "metals" end },
+        ["<Leader>M1"] = {
+          function() require("metals").start_ammonite() end,
+          desc = "Start Ammonite",
+          cond = function(client) return client.name == "metals" end,
+        },
+        ["<Leader>M!"] = {
+          function() require("metals").stop_ammonite() end,
+          desc = "Stop Ammonite",
+          cond = function(client) return client.name == "metals" end,
+        },
+        ["<Leader>M2"] = {
+          function() require("metals").start_scala_cli() end,
+          desc = "Start Scala CLI",
+          cond = function(client) return client.name == "metals" end,
+        },
+        ["<Leader>M@"] = {
+          function() require("metals").stop_scala_cli() end,
+          desc = "Stop Scala CLI",
+          cond = function(client) return client.name == "metals" end,
+        },
       },
     },
     -- A custom `on_attach` function to be run after the default `on_attach` function

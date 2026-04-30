@@ -12,6 +12,7 @@ return {
 
   {
     "padenot/webidl.nvim",
+    ft = "udl",
     dependencies = { "nvim-treesitter/nvim-treesitter" },
   },
 }

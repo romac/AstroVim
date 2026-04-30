@@ -97,6 +97,12 @@ if vim.env.TERM_PROGRAM == "WezTerm" then
   })
 end
 
+-- Enable word wrap for markdown files
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "markdown",
+  callback = function() vim.opt_local.wrap = true end,
+})
+
 require "neovide"
 
 -- -- https://github.com/neovim/neovim/issues/30985
@@ -107,3 +113,7 @@ require "neovide"
 --     return default_diagnostic_handler(err, result, context, config)
 --   end
 -- end
+
+-- Transparent background for LSP inlay hints
+local current_hl = vim.api.nvim_get_hl(0, { name = "LspInlayHint" })
+vim.api.nvim_set_hl(0, "LspInlayHint", { fg = current_hl.fg, bg = "NONE" })

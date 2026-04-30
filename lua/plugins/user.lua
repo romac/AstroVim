@@ -111,6 +111,31 @@ return {
     },
   },
 
+  -- Claude On Demand
+  {
+    dir = "~/Code/clod.nvim",
+    dependencies = {
+      { "romac/claude-agent-sdk-lua" },
+    },
+    cmd = { "Clod", "ClodCancel" },
+    keys = {
+      { "<leader>ai", mode = { "n", "v" }, desc = "Clod: Summon" },
+    },
+    opts = {},
+  },
+
+  {
+    "MeanderingProgrammer/render-markdown.nvim",
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    opts = {
+      enabled = false,
+      completions = {
+        lsp = { enabled = true },
+        blink = { enabled = true },
+      },
+    },
+  },
+
   -- You can disable default plugins as follows:
   -- { "max397574/better-escape.nvim", enabled = false },
 
