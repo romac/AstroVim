@@ -3,7 +3,16 @@
 -- NOTE: We highly recommend setting up the Lua Language Server (`:LspInstall lua_ls`)
 --       as this provides autocomplete and documentation while editing
 
+local lspconfig = require "lspconfig"
 local function cwd_root(_, on_dir) on_dir(vim.fn.getcwd()) end
+
+local function root_pattern(pattern)
+  return function(bufnr, on_dir)
+    local fname = vim.api.nvim_buf_get_name(bufnr)
+    local root = lspconfig.util.root_pattern(pattern)(fname)
+    on_dir(root)
+  end
+end
 
 ---@type LazySpec
 return {
@@ -67,14 +76,30 @@ return {
         --   "lsp",
         -- },
         filetypes = { "effed" },
-        root_dir = cwd_root,
+        root_dir = root_pattern "package.eff",
         single_file_support = true,
       },
 
-      quint = { cmd = { "quint-language-server", "--stdio" }, filetypes = { "quint" }, root_dir = cwd_root },
-      rhai = { cmd = { "rhai", "lsp", "stdio" }, filetypes = { "rhai" }, root_dir = cwd_root },
-      flix = { cmd = { "flix", "lsp", "10435" }, filetypes = { "flix" }, root_dir = cwd_root },
-      ty = { cmd = { "ty", "server" }, filetypes = { "python" }, root_dir = cwd_root },
+      quint = {
+        cmd = { "quint-language-server", "--stdio" },
+        filetypes = { "quint" },
+        root_dir = cwd_root,
+      },
+      rhai = {
+        cmd = { "rhai", "lsp", "stdio" },
+        filetypes = { "rhai" },
+        root_dir = cwd_root,
+      },
+      flix = {
+        cmd = { "flix", "lsp", "10435" },
+        filetypes = { "flix" },
+        root_dir = root_pattern "flix.toml",
+      },
+      ty = {
+        cmd = { "ty", "server" },
+        filetypes = { "python" },
+        root_dir = cwd_root,
+      },
 
       rust_analyzer = {
         settings = {
