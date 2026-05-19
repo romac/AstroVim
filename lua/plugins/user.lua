@@ -36,7 +36,7 @@ return {
       },
       {
         "<leader>gor",
-        function() vim.cmd "OpenInGHFileRepo" end,
+        function() vim.cmd "OpenInGHRepo" end,
         mode = { "n", "x" },
         desc = "Open GitHub repo",
       },
