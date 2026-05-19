@@ -8,16 +8,10 @@ return {
   { "goolord/alpha-nvim", enabled = false },
   { "nvim-telescope/telescope.nvim", enabled = false },
 
-  -- customize dashboard options
+  -- open directly into a new buffer instead of the dashboard
   {
     "folke/snacks.nvim",
-    opts = {
-      dashboard = {
-        preset = {
-          header = " ",
-        },
-      },
-    },
+    opts = function(_, opts) opts.dashboard.enabled = false end,
   },
 
   {
